@@ -8,7 +8,11 @@
 		<div class="ins-wrapper">
 			<child class='ins' each={ myMemes }>
 				<div class="image-wrapper" style="background-image: url({url});"></div>
+				<svg class="love-btn" ref="loved" aria-hidden="true" onclick={ loveit }>
+					<use xlink:href="#icon-aixin1"></use>
+				</svg>
 				<img class="delete-btn" src="https://cdn3.iconfinder.com/data/icons/stroke/53/Trash-512.png" id='remove' onclick={ parent.remove }>
+
 			</child>
 		</div>
 
@@ -17,7 +21,7 @@
 				<input type="text" onkeyup={ updateImageURL } ref="urlEl" placeholder="Enter url">
 				<button type="button" onclick={ addMeme }>Add Meme</button>
 				<img class='break' src={ imageURL } alt="user image"/>
-				<img id='close'  onclick={ close } src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/VisualEditor_-_Icon_-_Close_-_white.svg/2000px-VisualEditor_-_Icon_-_Close_-_white.svg.png" alt="">
+				<img id='close' onclick={ close } src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/VisualEditor_-_Icon_-_Close_-_white.svg/2000px-VisualEditor_-_Icon_-_Close_-_white.svg.png" alt="">
 
 			</div>
 		</div>
@@ -73,6 +77,13 @@
 		this.close = function () {
 			this.refs.panel.classList.remove('active');
 		}
+
+		this.loveit = function () {
+			var memeObj = event.item;
+			var index = this.myMemes.indexOf(memeObj);
+			that.refs.loved[index].classList.toggle('red');
+			observable.trigger('msglove');
+		}
 	</script>
 
 	<style>
@@ -81,11 +92,25 @@
 			width: 30px;
 			height: 30px;
 			position: absolute;
-			right: 10px;
-			bottom: 10px;
+			right: 15px;
+			bottom: 50px;
 		}
-
+		.love-btn {
+			opacity: 0;
+			width: 40px;
+			height: 40px;
+			position: absolute;
+			right: 10px;
+			bottom: 5px;
+		}
+		.red {
+			fill: #D94432;
+			opacity: 1;
+		}
 		.ins:hover .delete-btn {
+			opacity: 1;
+		}
+		.ins:hover .love-btn {
 			opacity: 1;
 		}
 		:scope {
@@ -115,21 +140,20 @@
 			background-color: white;
 			width: 30%;
 			border-radius: 6px;
-			margin: 10px 13px;
-			margin:20px auto;
+			margin: 20px auto;
 		}
 		.allpage {
 			position: relative;
 		}
-		#update{
-			margin:246px auto;
+		#update {
+			margin: 246px auto;
 		}
-		input{
-			padding:10px 30px;
+		input {
+			padding: 10px 30px;
 			border-radius: 5px;
 		}
-		button{
-			padding:10px;
+		button {
+			padding: 10px;
 			border-radius: 5px;
 		}
 		.memeMaker {
@@ -139,17 +163,17 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			text-align:center;
+			text-align: center;
 			display: none;
 		}
 		.memeMaker.active {
 			display: block;
 		}
-		#close{
+		#close {
 			width: 40px;
 			height: 40px;
-			position:relative;
-			top:20px;
+			position: relative;
+			top: 20px;
 		}
 	</style>
 </addmeme>
