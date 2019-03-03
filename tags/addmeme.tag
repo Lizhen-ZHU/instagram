@@ -8,7 +8,7 @@
 		<div class="ins-wrapper">
 			<child class='ins' each={ myMemes }>
 				<div class="image-wrapper" style="background-image: url({url});"></div>
-				<svg class="love-btn" ref="loved" aria-hidden="true" onclick={ loveit }>
+				<svg class="love-btn" ref="loved" aria-hidden="true" onclick={ loveit.bind(this, url) }>
 					<use xlink:href="#icon-aixin1"></use>
 				</svg>
 				<img class="delete-btn" src="https://cdn3.iconfinder.com/data/icons/stroke/53/Trash-512.png" id='remove' onclick={ parent.remove }>
@@ -18,6 +18,8 @@
 
 		<div class="memeMaker" ref="panel">
 			<div id="update">
+				<input type="file" id="i_file" value=""> 
+				<br>
 				<input type="text" onkeyup={ updateImageURL } ref="urlEl" placeholder="Enter url">
 				<button type="button" onclick={ addMeme }>Add Meme</button>
 				<img class='break' src={ imageURL } alt="user image"/>
@@ -78,12 +80,24 @@
 			this.refs.panel.classList.remove('active');
 		}
 
-		this.loveit = function () {
+		this.loveit = function (url) {
 			var memeObj = event.item;
 			var index = this.myMemes.indexOf(memeObj);
 			that.refs.loved[index].classList.toggle('red');
-			observable.trigger('msglove');
+			observable.trigger('msglove', url);
 		}
+
+		//for file uploading
+		this.on('mount', ()=> {
+			$('#i_file').change( (event)=> {
+			var tmppath = URL.createObjectURL(event.target.files[0]);
+			this.imageURL = tmppath;
+			this.refs.urlEl.value = tmppath;
+			this.update();
+			});
+		})
+	
+		
 	</script>
 
 	<style>
@@ -151,6 +165,7 @@
 		input {
 			padding: 10px 30px;
 			border-radius: 5px;
+			border: 1px dashed #BBB;
 		}
 		button {
 			padding: 10px;

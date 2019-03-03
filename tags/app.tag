@@ -13,7 +13,7 @@
     }
 
     this.showLovePanel = function () {
-      this.tags.lovedmeme.refs.lovepanel.classList.toggle('active');
+     this.tags.lovedmeme.refs.lovepanel.classList.toggle('active');
     }
   </script>
   <style>
@@ -23,6 +23,7 @@
       padding: 0 10px;
       box-shadow: 0 0 31px 1px rgba(0, 0, 0, 0.25);
       border-radius: 10px;
+      position:relative;
     }
   </style>
 </app>

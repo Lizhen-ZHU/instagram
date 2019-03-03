@@ -31,9 +31,8 @@
 		this.visible = false;
 
 		observable.on('msglove', function(){
-		<!-- that.data = passedData; -->
-		that.wait();
-	});
+			that.wait();
+		});
 
 
 	this.wait = function(){
@@ -43,7 +42,6 @@
 	}
 
 	this.respond = function () {
-		<!-- that.selectJoke(); -->
 		that.visible = true;
 		that.update();
 		setTimeout(function () {
@@ -75,9 +73,9 @@
 		#msg{
 			position: absolute;
 			bottom: 30px;
-	left: 610px;
-	width: 80px;
-	height: 80px;
+			left: 610px;
+			width: 80px;
+			height: 80px;
 
 		}
 		.icons {
