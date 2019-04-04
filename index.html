@@ -1,12 +1,8 @@
-
 <html>
-
 <head>
 	<meta charset="UTF-8">
 	<title>Web Instagram</title>
 </head>
-
-
 <body>
 
 	<app></app>
@@ -18,16 +14,29 @@
 	<script src="./tags/lovedmeme.tag" type="riot/tag"></script>
 	<script src="./tags/footer.tag" type="riot/tag"></script>
 	<script src="./tags/app.tag" type="riot/tag"></script>
+	<script src="./tags/msg.tag" type="riot/tag"></script>
 	<script src="https://cdn.jsdelivr.net/riot/3.1.0/riot+compiler.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src='https://at.alicdn.com/t/font_1044217_zdkka631p1.js'></script>
 
-
+	<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
 	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyBopOepp_2--2IVDz4f1Xb7CmONFsvfVZY",
+			authDomain: "instagram-56628.firebaseapp.com",
+			databaseURL: "https://instagram-56628.firebaseio.com",
+			projectId: "instagram-56628",
+			storageBucket: "",
+			messagingSenderId: "824999116842"
+		};
+		firebase.initializeApp(config);
+		var database = firebase.database();
+		var rootRef = database.ref('/');
 
-	  var observable = riot.observable();
+
+		var observable = riot.observable();
 		riot.mount('*');
-
 	</script>
 
 

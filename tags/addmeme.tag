@@ -1,33 +1,39 @@
 <addmeme>
+	<div class="memeMaker1" ref="lovepanel1">
+		<msg each={sendMsg}></msg>
 
-	<div show={ myMemes.length == 0 }>
-		<p>NO MEMEs</p>
 	</div>
-	<div class="allpage">
 
-		<div class="ins-wrapper">
-			<child class='ins' each={ myMemes }>
-				<div class="image-wrapper" style="background-image: url({url});"></div>
-				<svg class="love-btn" ref="loved" aria-hidden="true" onclick={ loveit.bind(this, url) }>
-					<use xlink:href="#icon-aixin1"></use>
-				</svg>
-				<img class="delete-btn" src="https://cdn3.iconfinder.com/data/icons/stroke/53/Trash-512.png" id='remove' onclick={ parent.remove }>
-
-			</child>
+	<div class="nowmeme" ref="nowmeme">
+		<div show={ myMemes.length == 0 }>
+			<p>NO MEMEs</p>
 		</div>
+		<div class="allpage">
 
-		<div class="memeMaker" ref="panel">
-			<div id="update">
-				<input type="file" id="i_file" value=""> 
-				<br>
-				<input type="text" onkeyup={ updateImageURL } ref="urlEl" placeholder="Enter url">
-				<button type="button" onclick={ addMeme }>Add Meme</button>
-				<img class='break' src={ imageURL } alt="user image"/>
-				<img id='close' onclick={ close } src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/VisualEditor_-_Icon_-_Close_-_white.svg/2000px-VisualEditor_-_Icon_-_Close_-_white.svg.png" alt="">
+			<div class="ins-wrapper">
+				<child class='ins' each={ myMemes }>
+					<div class="image-wrapper" style="background-image: url({url});"></div>
+					<svg class="love-btn" ref="loved" aria-hidden="true" onclick={ loveit.bind(this, url) }>
+						<use xlink:href="#icon-aixin1"></use>
+					</svg>
+					<img class="delete-btn" src="https://cdn3.iconfinder.com/data/icons/stroke/53/Trash-512.png" id='remove' onclick={ parent.remove }>
 
+				</child>
 			</div>
-		</div>
 
+			<div class="memeMaker" ref="panel">
+				<div id="update">
+					<input type="file" id="i_file" value="">
+					<br>
+					<input type="text" onkeyup={ updateImageURL } ref="urlEl" placeholder="Enter url">
+					<button type="button" onclick={ addMeme }>Add Meme</button>
+					<img class='break' src={ imageURL } alt="user image"/>
+					<img id='close' onclick={ close } src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/VisualEditor_-_Icon_-_Close_-_white.svg/2000px-VisualEditor_-_Icon_-_Close_-_white.svg.png" alt="">
+
+				</div>
+			</div>
+
+		</div>
 	</div>
 	<script>
 		var that = this;
@@ -85,19 +91,37 @@
 			var index = this.myMemes.indexOf(memeObj);
 			that.refs.loved[index].classList.toggle('red');
 			observable.trigger('msglove', url);
+
+			var key = messagesRef.push().key;
+			var msg = {
+				message: url
+			};
+			msg.id = key;
+			messagesRef.child(key).set(msg);
+
 		}
 
-		//for file uploading
-		this.on('mount', ()=> {
-			$('#i_file').change( (event)=> {
-			var tmppath = URL.createObjectURL(event.target.files[0]);
-			this.imageURL = tmppath;
-			this.refs.urlEl.value = tmppath;
-			this.update();
+		this.on('mount', () => {
+			$('#i_file').change((event) => {
+				var tmppath = URL.createObjectURL(event.target.files[0]);
+				this.imageURL = tmppath;
+				this.refs.urlEl.value = tmppath;
+				this.update();
 			});
 		})
-	
-		
+
+		this.sendMsg = []
+		var messagesRef = rootRef.child('messages');
+
+		messagesRef.on('value', function (snapshot) {
+			var data = snapshot.val()
+			var todoMsg = []
+			for (var key in data) {
+				todoMsg.push(data[key])
+			}
+			that.sendMsg = todoMsg
+			that.update();
+		})
 	</script>
 
 	<style>
@@ -189,6 +213,28 @@
 			height: 40px;
 			position: relative;
 			top: 20px;
+		}
+
+		.memeMaker1 {
+			background: #FFFFFF;
+			height: 100%;
+			width: 884px;
+			position: absolute;
+			top: 286px;
+			left: 10 px;
+			text-align: center;
+			display: none;
+		}
+		.memeMaker1.active {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+		}
+		.nowmeme {
+			display: block;
+		}
+		.nowmeme.active {
+			display: none;
 		}
 	</style>
 </addmeme>

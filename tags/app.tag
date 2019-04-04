@@ -2,7 +2,8 @@
   <div class="bgbg">
     <header></header>
     <addmeme></addmeme>
-    <lovedmeme></lovedmeme>
+    <!-- <lovedmeme></lovedmeme> -->
+
     <footer></footer>
   </div>
 
@@ -13,7 +14,10 @@
     }
 
     this.showLovePanel = function () {
-     this.tags.lovedmeme.refs.lovepanel.classList.toggle('active');
+     <!-- this.tags.lovedmeme.refs.lovepanel.classList.toggle('active'); -->
+     this.tags.addmeme.refs.lovepanel1.classList.toggle('active');
+      this.tags.addmeme.refs.nowmeme.classList.toggle('active');
+
     }
   </script>
   <style>

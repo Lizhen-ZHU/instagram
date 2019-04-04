@@ -1,5 +1,5 @@
 <lovedmeme>
-
+	
   <div class="memeMaker" ref="lovepanel">
   		<div class="ins-wrapper">
 			<child class='ins' each={ myMemes }>
@@ -10,8 +10,8 @@
         <p class='num'>{ num }</p>
       </child>
   </div>
-  
-  
+
+
   </div>
 
   <script>
@@ -21,9 +21,9 @@
 			this.myMemes.push({url, num});
       this.update();
 		});
-    
+
 		this.myMemes = [
-   
+
     ];
 
     this.getNumber = ()=>Math.floor((Math.random() * 1000) + 1);
